@@ -10,6 +10,7 @@ load_dotenv()
 app = FastAPI()
 
 API_KEY = os.getenv("API_KEY")
+print(f"API_KEY: {API_KEY}")
 
 # CORS for frontend access
 app.add_middleware(
