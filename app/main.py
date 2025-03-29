@@ -17,7 +17,7 @@ API_KEY = (os.getenv("API_KEY") or "").strip()
 if not API_KEY:
     print("⚠️ WARNING: API_KEY not loaded from environment!")
 else:
-    #print(f"✅ Loaded API_KEY: {repr(API_KEY)}")
+    print(f"✅ Loaded API_KEY")
 
 # Setup API key header extraction
 API_KEY_NAME = "x-api-key"
