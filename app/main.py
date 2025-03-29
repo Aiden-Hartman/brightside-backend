@@ -17,7 +17,7 @@ API_KEY = (os.getenv("API_KEY") or "").strip()
 if not API_KEY:
     print("⚠️ WARNING: API_KEY not loaded from environment!")
 else:
-    print(f"✅ Loaded API_KEY: {repr(API_KEY)}")
+    #print(f"✅ Loaded API_KEY: {repr(API_KEY)}")
 
 # Setup API key header extraction
 API_KEY_NAME = "x-api-key"
@@ -34,8 +34,8 @@ app.add_middleware(
 # Security dependency to check the API key
 async def get_api_key(request: Request, api_key: str = Security(api_key_header)):
     received_key = (api_key or "").strip()
-    print(f"🛂 Received API key: {repr(received_key)}")
-    print(f"📬 Request headers: {dict(request.headers)}")
+    #print(f"🛂 Received API key: {repr(received_key)}")
+    #print(f"📬 Request headers: {dict(request.headers)}")
 
     if received_key != API_KEY:
         print("❌ API key mismatch!")
