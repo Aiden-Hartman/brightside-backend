@@ -10,7 +10,19 @@ load_dotenv()
 app = FastAPI()
 
 API_KEY = os.getenv("API_KEY")
-print(f"API_KEY: {API_KEY}")
+print(f"Loaded api_key: {API_KEY}")
+
+from fastapi import FastAPI, Security
+from fastapi.security.api_key import APIKeyHeader
+
+API_KEY_NAME = "x-api-key"
+api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
+
+async def get_api_key(api_key: str = Security(api_key_header)):
+    if api_key != API_KEY:
+        print(f"Received api_key: {api_key}")
+        raise HTTPException(status_code=401, detail="Invalid API key")
+    return api_key
 
 # CORS for frontend access
 app.add_middleware(
@@ -21,7 +33,9 @@ app.add_middleware(
 )
 
 @app.post("/recommend")
-def recommend_products(data: QueryInput, x_api_key: str = Header(...)):
-    if x_api_key != API_KEY:
-        raise HTTPException(status_code=401, detail="Invalid API Key")
+def recommend_products(
+    data: QueryInput,
+    api_key: str = Security(get_api_key)
+):
     return query_top_products(data.question)
+
